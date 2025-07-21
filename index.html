@@ -4,27 +4,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinity the Links - Dark Mode</title>
-    <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts for a clean, modern look -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Applying the Inter font to the whole page */
+        /* * Base styles and resets 
+         * These styles replace the need for the Tailwind CSS CDN by defining the classes used in the HTML directly.
+         */
+        :root {
+            --color-gray-900: #111827;
+            --color-gray-800: #1f2937;
+            --color-gray-700: #374151;
+            --color-gray-500: #6b7281;
+            --color-gray-400: #9ca3af;
+            --color-gray-300: #d1d5db;
+            --color-gray-200: #e5e7eb;
+            --color-blue-400: #60a5fa;
+            --color-blue-300: #93c5fd;
+            --color-white: #ffffff;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: var(--color-gray-900);
+            color: var(--color-gray-200);
+            margin: 0;
+            padding: 0;
         }
-        /* Simple class to group link items */
-        .link-item {
-            padding: 8px 0;
+
+        /* * Layout Containers 
+         */
+        .container {
+            width: 100%;
+            max-width: 1024px; /* lg breakpoint */
+            margin-left: auto;
+            margin-right: auto;
+            padding: 1.5rem; /* p-6 */
+            box-sizing: border-box;
         }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 3rem; /* md:p-12 */
+            }
+        }
+
+        /* * Typography and Text Styles 
+         */
+        h1, h2, h3, h4, p, a {
+            margin: 0;
+        }
+
+        a {
+            color: var(--color-blue-400);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--color-blue-300);
+            text-decoration: underline;
+        }
+
+        .text-center { text-align: center; }
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .font-medium { font-weight: 500; }
+
+        .text-5xl { font-size: 3rem; line-height: 1; }
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+        .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+
+        .text-white { color: var(--color-white); }
+        .text-gray-300 { color: var(--color-gray-300); }
+        .text-gray-400 { color: var(--color-gray-400); }
+        .text-gray-500 { color: var(--color-gray-500); }
+
+        /* * Spacing and Margin
+         */
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-10 { margin-bottom: 2.5rem; }
+        .mb-12 { margin-bottom: 3rem; }
+        .mt-12 { margin-top: 3rem; }
+        .ml-4 { margin-left: 1rem; }
+        .pb-2 { padding-bottom: 0.5rem; }
+        .pt-6 { padding-top: 1.5rem; }
+
+        /* * Borders 
+         */
+        .border-b-2 { border-bottom-width: 2px; border-style: solid; }
+        .border-t { border-top-width: 1px; border-style: solid; }
+        .border-gray-700 { border-color: var(--color-gray-700); }
+        .border-gray-800 { border-color: var(--color-gray-800); }
+
+        /* * Custom and Flexbox Styles 
+         */
+        .space-y-3 > * + * { margin-top: 0.75rem; }
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+        .space-y-1 > * + * { margin-top: 0.25rem; }
+        .flex-col { display: flex; flex-direction: column; }
+        .link-item { padding: 8px 0; }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-200">
+<body>
 
     <!-- Main container to center content and add padding -->
-    <div class="container mx-auto p-6 md:p-12">
+    <div class="container">
 
         <!-- Page Header -->
         <header class="text-center mb-12">
@@ -39,52 +127,54 @@
                 <h2 class="text-3xl font-semibold text-white border-b-2 border-gray-700 pb-2 mb-4">Official Links</h2>
                 <div class="space-y-3">
                     <div class="link-item">
-                        <a href="https://infinitytheuniverse.com/resources" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Rules and FAQs Download Page</a>
+                        <a href="https://infinitytheuniverse.com/resources">Rules and FAQs Download Page</a>
                     </div>
                     <div class="link-item">
-                        <a href="https://forum.corvusbelli.com/forums/rules.49/" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Rules Forum</a>
+                        <a href="https://forum.corvusbelli.com/forums/rules.49/">Rules Forum</a>
                     </div>
                     <div class="link-item">
-                        <a href="https://infinitythewiki.com/" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Rules Wiki</a>
+                        <a href="https://infinitythewiki.com/">Rules Wiki</a>
                     </div>
                     <div class="link-item">
-                        <a href="https://infinitytheuniverse.com/army/infinity" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Army Builder</a>
+                        <a href="https://infinitytheuniverse.com/army/infinity">Army Builder</a>
                     </div>
                 </div>
             </section>
 
-            <!-- Section for Fan Made Utilities -->
+            <!-- Section for Unofficial Community Links & Utilities -->
             <section class="mb-10">
-                <h2 class="text-3xl font-semibold text-white border-b-2 border-gray-700 pb-2 mb-4">Fan Made Utilities</h2>
+                <h2 class="text-3xl font-semibold text-white border-b-2 border-gray-700 pb-2 mb-4">Unofficial Community Links & Utilities</h2>
                 <div class="space-y-3">
                      <div class="link-item">
-                        <a href="https://infinitythecalculator.com/" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Dice Calculator</a>
+                        <a href="https://discord.com/invite/nVCRtzf">Infinity the Unofficial Discord</a>
                     </div>
                      <div class="link-item">
-                        <a href="https://human-sphere.com/index.php?title=Main_Page" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Fluff Wiki</a>
+                        <a href="https://infinitythecalculator.com/">Dice Calculator</a>
                     </div>
                      <div class="link-item">
-                        <a href="http://koin.koin.free.fr/perryfraser-infinity-coloring/" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Paint Scheme Tool</a>
+                        <a href="https://human-sphere.com/index.php?title=Main_Page">Fluff Wiki</a>
+                    </div>
+                     <div class="link-item">
+                        <a href="http://koin.koin.free.fr/perryfraser-infinity-coloring/">Paint Scheme Tool</a>
                     </div>
                     <div class="link-item">
                         <p class="font-medium text-gray-300 mb-1">Stat Trackers:</p>
-                        <div class="flex flex-col space-y-1 ml-4">
-                             <a href="https://stats.infinitytheacademy.com/" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">The Academy</a>
-                             <a href="https://infinitythedata.com" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Infinity The Data</a>
-                             <a href="https://infinitythemeta.com" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Infinity The Meta</a>
+                        <div class="flex-col space-y-1 ml-4">
+                             <a href="https://infinitythedata.com">Infinity The Data</a>
+                             <a href="https://infinitythemeta.com">Infinity The Meta</a>
                         </div>
                     </div>
                      <div class="link-item">
-                        <a href="https://infinitytheclassifieds.com" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Classified Tool</a>
+                        <a href="https://infinitytheclassifieds.com">Classified Tool</a>
                     </div>
                      <div class="link-item">
-                        <a href="https://infinity.ghostlords.com" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Jonathan's Infinity Resources</a>
+                        <a href="https://infinity.ghostlords.com">Jonathan's Infinity Resources</a>
                     </div>
                     <div class="link-item">
                         <p class="font-medium text-gray-300 mb-1">Comlog Mission App:</p>
-                        <div class="flex flex-col space-y-1 ml-4">
-                            <a href="https://play.google.com/store/apps/details?id=com.comlog&hl=en_US" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Google Play Store</a>
-                            <a href="https://apps.apple.com/au/app/comlog/id1434217470" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Apple App Store</a>
+                        <div class="flex-col space-y-1 ml-4">
+                            <a href="https://play.google.com/store/apps/details?id=com.comlog&hl=en_US">Google Play Store</a>
+                            <a href="https://apps.apple.com/au/app/comlog/id1434217470">Apple App Store</a>
                         </div>
                     </div>
                 </div>
@@ -93,14 +183,18 @@
             <!-- Section for Local Groups -->
             <section class="mb-10">
                 <h2 class="text-3xl font-semibold text-white border-b-2 border-gray-700 pb-2 mb-4">Find Some Locals</h2>
-                <div>
-                    <h3 class="text-2xl font-medium text-white mb-3">United States</h3>
-                    <div class="ml-4">
-                        <h4 class="text-xl font-medium text-gray-300 mb-2">New England</h4>
-                        <!-- Using flexbox for better alignment of links -->
-                        <div class="flex flex-col space-y-2 ml-4">
-                            <a href="https://www.facebook.com/groups/infinityne" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Infinity New England - Facebook Group</a>
-                            <a href="https://www.facebook.com/profile.php?id=61572788194223" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors duration-300">Beantown Beatdown Event Page</a>
+                <div class="space-y-3">
+                    <div class="link-item">
+                        <a href="https://maphub.net/CorvusBelli/corvus-belli-warcors">Warcor Map</a>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-medium text-white mb-3">United States</h3>
+                        <div class="ml-4">
+                            <h4 class="text-xl font-medium text-gray-300 mb-2">New England</h4>
+                            <div class="flex-col space-y-2 ml-4">
+                                <a href="https://www.facebook.com/groups/infinityne">Infinity New England - Facebook Group</a>
+                                <a href="https://www.facebook.com/profile.php?id=61572788194223">Beantown Beatdown Event Page</a>
+                            </div>
                         </div>
                     </div>
                 </div>
