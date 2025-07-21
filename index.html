@@ -1,5 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--
+    PROJECT: Infinity the Links (infinitythelinks.com)
+    DESCRIPTION: A single-page, self-contained website designed to be a curated list of useful links for the tabletop wargame "Infinity the Game" by Corvus Belli.
+
+    DESIGN PHILOSOPHY:
+    - Self-Contained: The entire site is a single HTML file with all CSS and JavaScript embedded. This makes it highly portable, fast-loading, and easy to host on any static platform like GitHub Pages.
+    - Sci-Fi Aesthetic: The design uses a dark mode theme with a subtle grid background, a futuristic font ('Exo 2'), and glowing cyan accents to reflect the high-tech theme of the Infinity universe.
+    - Information Dense: The layout is intentionally compact to display a large number of links without excessive scrolling, making it a quick and efficient resource for players.
+    - Lightweight & Fast: Minimal JavaScript is used only for progressive enhancements (like the "Return to Top" button). The core functionality of viewing links works without any scripts enabled.
+
+    KEY FEATURES:
+    - Analytics: Uses GoatCounter for privacy-respecting traffic analysis.
+    - Metadata: Includes SEO and Open Graph tags for better link previews on social media and messaging apps.
+    - Favicons: A comprehensive set of favicons is included for cross-browser and device compatibility.
+-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,13 +62,11 @@
         body {
             font-family: 'Exo 2', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--color-gray-900);
-            /* Subtle sci-fi hexagon background */
+            /* Subtle sci-fi grid background */
             background-image:
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(60deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-                linear-gradient(120deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
-            background-size: 40px 69px;
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 25px 25px;
             color: var(--color-gray-200);
             margin: 0;
             padding: 0;
