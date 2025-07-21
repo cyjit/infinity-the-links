@@ -48,7 +48,7 @@
 
         /* * Typography and Text Styles 
          */
-        h1, h2, h3, h4, p, a {
+        h1, h2, h3, h4, h5, p, a {
             margin: 0;
         }
 
@@ -88,6 +88,7 @@
         .mb-4 { margin-bottom: 1rem; }
         .mb-10 { margin-bottom: 2.5rem; }
         .mb-12 { margin-bottom: 3rem; }
+        .mt-2 { margin-top: 0.5rem; }
         .mt-12 { margin-top: 3rem; }
         .ml-4 { margin-left: 1rem; }
         .pb-2 { padding-bottom: 0.5rem; }
@@ -104,7 +105,13 @@
         .space-y-2 > * + * { margin-top: 0.5rem; }
         .space-y-1 > * + * { margin-top: 0.25rem; }
         .flex-col { display: flex; flex-direction: column; }
-        .link-item { padding: 8px 0; }
+        .link-item { padding: 12px 0; }
+        .link-description {
+            color: var(--color-gray-400);
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body>
@@ -147,10 +154,11 @@
                         <a href="https://discord.com/invite/nVCRtzf">Infinity the Unofficial Discord</a>
                     </div>
                      <div class="link-item">
-                        <a href="https://infinitythecalculator.com/">Dice Calculator</a>
+                        <a href="https://infinitythecalculator.com/">Infinity the Calculator - Dice Calculator</a>
                     </div>
                      <div class="link-item">
-                        <a href="https://human-sphere.com/index.php?title=Main_Page">Fluff Wiki</a>
+                        <a href="https://human-sphere.com/index.php?title=Main_Page">Infinity the Wiki</a>
+                        <p class="link-description">Community maintained Wiki with faction and unit descriptions, art and model references.</p>
                     </div>
                      <div class="link-item">
                         <a href="http://koin.koin.free.fr/perryfraser-infinity-coloring/">Paint Scheme Tool</a>
@@ -163,16 +171,41 @@
                         </div>
                     </div>
                      <div class="link-item">
-                        <a href="https://infinitytheclassifieds.com">Classified Tool</a>
+                        <a href="https://infinitytheclassifieds.com">Infinity the Classifieds - Classified Objective Tool</a>
+                    </div>
+                     <div class="link-item">
+                        <a href="http://www.infinityutilities.de/randomlistgenerator">Random List Generator</a>
                     </div>
                      <div class="link-item">
                         <a href="https://infinity.ghostlords.com">Jonathan's Infinity Resources</a>
+                        <p class="link-description">A collection of useful tools, including the popular Token Generator.</p>
+                        <div class="ml-4 mt-2">
+                            <a href="https://infinity.ghostlords.com/markers/n5/">Direct Link to Token Generator</a>
+                        </div>
                     </div>
                     <div class="link-item">
-                        <p class="font-medium text-gray-300 mb-1">Comlog Mission App:</p>
-                        <div class="flex-col space-y-1 ml-4">
+                        <p class="font-medium text-gray-300 mb-1">Comlog Mission App</p>
+                        <p class="link-description">A mobile app for tracking objectives, classifieds, and game state during your Infinity matches.</p>
+                        <div class="flex-col space-y-1 ml-4 mt-2">
                             <a href="https://play.google.com/store/apps/details?id=com.comlog&hl=en_US">Google Play Store</a>
                             <a href="https://apps.apple.com/au/app/comlog/id1434217470">Apple App Store</a>
+                        </div>
+                    </div>
+                    <div class="link-item">
+                        <p class="font-medium text-gray-300 mb-1">Models & 3D Printing:</p>
+                        <div class="flex-col space-y-3 ml-4">
+                             <div>
+                                <a href="https://www.monstrousmakings.co.uk/product-category/monstrous-makings/sci-fi/">MonstrousMakings</a>
+                                <p class="link-description">Weapons and bits for modifications and conversions.</p>
+                            </div>
+                            <div>
+                                <a href="https://www.patreon.com/posts/free-infinity-123176567">Foxy Fennec Fusiliers</a>
+                                <p class="link-description">Custom Fusiliers commissioned by HackKnee and done by Ramtin / ExiledArtisan (exiled.artisan@gmail.com).</p>
+                            </div>
+                            <div>
+                                <a href="https://cults3d.com/en/design-collections/cyberjunkinthetrunk/proxies-of-the-people-sphere">Proxies of the People Sphere</a>
+                                <p class="link-description">HVTs and Custom Sculpts Commissioned by CyberJunkIntheTrunk and completed by Ramtin / ExiledArtisan (exiled.artisan@gmail.com).</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -184,14 +217,48 @@
                 <div class="space-y-3">
                     <div class="link-item">
                         <a href="https://maphub.net/CorvusBelli/corvus-belli-warcors">Warcor Map</a>
+                        <p class="link-description">Official map of Warcors (community volunteers) who can help you find a game.</p>
                     </div>
-                    <div>
-                        <h3 class="text-2xl font-medium text-white mb-3">United States</h3>
+                    
+                    <!-- North America -->
+                    <div class="link-item">
+                        <h3 class="text-2xl font-medium text-white mb-3">North America</h3>
+                        <div class="ml-4 space-y-3">
+                            <div>
+                                <h4 class="text-xl font-medium text-gray-300">Cascadia</h4>
+                                <p class="link-description">Covering the US Pacific Northwest and British Columbia, Canada.</p>
+                                <div class="ml-4 mt-2">
+                                    <a href="https://discord.gg/Kc39qKUn2X">Cascadia Infinity Discord Server</a>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-medium text-gray-300">United States</h4>
+                                <div class="ml-4 mt-2 space-y-3">
+                                    <div>
+                                        <h5 class="text-lg font-medium text-gray-300">New England</h5>
+                                        <div class="flex-col space-y-2 ml-4">
+                                            <a href="https://www.facebook.com/groups/infinityne">Infinity New England - Facebook Group</a>
+                                            <a href="https://www.facebook.com/profile.php?id=61572788194223">Beantown Beatdown Event Page</a>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-lg font-medium text-gray-300">Louisville Area</h5>
+                                         <div class="ml-4">
+                                            <a href="https://linktr.ee/lairpresents">Louisville Area Infinity Regulars (LAIR)</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Europe -->
+                    <div class="link-item">
+                        <h3 class="text-2xl font-medium text-white mb-3">Europe</h3>
                         <div class="ml-4">
-                            <h4 class="text-xl font-medium text-gray-300 mb-2">New England</h4>
-                            <div class="flex-col space-y-2 ml-4">
-                                <a href="https://www.facebook.com/groups/infinityne">Infinity New England - Facebook Group</a>
-                                <a href="https://www.facebook.com/profile.php?id=61572788194223">Beantown Beatdown Event Page</a>
+                            <h4 class="text-xl font-medium text-gray-300">Russia</h4>
+                            <div class="ml-4 mt-2">
+                                <a href="https://discord.gg/9dpBhwUJJW">Russian Table Top Simulator Community</a>
                             </div>
                         </div>
                     </div>
@@ -200,11 +267,15 @@
         </main>
 
         <!-- Footer -->
-        <footer class="text-center mt-12 border-t border-gray-800 pt-6">
+        <footer class="text-center mt-12">
             <p class="text-sm text-gray-500">Additions or updates to make? Contact k33f on discord</p>
         </footer>
 
     </div>
+    
+    <!-- GoatCounter Analytics -->
+    <script data-goatcounter="https://infinitythelinks.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 
 </body>
 </html>
