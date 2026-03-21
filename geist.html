@@ -232,7 +232,24 @@ body {
     padding: 12px 0 6px;
     grid-column: 1 / -1;
     border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+.rand-btn {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    background: rgba(34,211,238,0.1);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    padding: 2px 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.rand-btn:hover { background: rgba(34,211,238,0.25); }
 .section-divider .divider-note {
     font-weight: 500;
     font-size: 0.65rem;
@@ -2043,7 +2060,7 @@ function renderMissionGrid() {
     const da = MISSIONS.filter(m => m.category === 'da').sort((a,b) => a.name.localeCompare(b.name));
 
     h += `<div class="mission-grid">`;
-    h += `<div class="section-divider">ITS Scenarios</div>`;
+    h += `<div class="section-divider"><span>ITS Scenarios</span><button class="rand-btn" onclick="event.stopPropagation(); randomMission('its')">RAND</button></div>`;
     its.forEach(m => {
         h += `<div class="mission-tile" onclick="navigate('mission/${m.id}')">`;
         h += `<div class="tile-name">${m.name}</div>`;
@@ -2290,6 +2307,12 @@ function renderReference() {
 
 const content = document.getElementById('content');
 const navBtns = document.querySelectorAll('.nav-btn');
+
+function randomMission(category) {
+    const pool = MISSIONS.filter(m => m.category === category);
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    navigate('mission/' + pick.id);
+}
 
 function navigate(route) {
     window.location.hash = route;
