@@ -89,9 +89,17 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.15em;
 }
+.site-header .version-info {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+}
 
 .nav-bar {
     display: flex;
+    justify-content: center;
     gap: 4px;
     margin-bottom: 16px;
     overflow-x: auto;
@@ -229,6 +237,51 @@ body {
     gap: 10px;
     margin-top: 8px;
     flex-wrap: wrap;
+}
+.mission-header .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+.roll-ts-btn {
+    background: var(--bg-surface);
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    font-family: inherit;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.roll-ts-btn:hover { background: var(--cyan-bg); box-shadow: 0 0 8px var(--cyan-glow); }
+.ts-result-bar {
+    background: var(--cyan-bg);
+    border: 1px solid rgba(34,211,238,0.25);
+    border-radius: var(--radius);
+    padding: 8px 14px;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: var(--text);
+    display: none;
+}
+.ts-result-bar .ts-result-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+}
+.ts-result-bar .ts-result-num {
+    color: var(--cyan-light);
+    font-weight: 700;
 }
 
 .mission-section {
@@ -558,6 +611,10 @@ body {
     padding: 5px 8px;
     border-bottom: 1px solid var(--border);
 }
+.threshold-table { text-align: center; }
+.threshold-table th { text-align: center; font-size: 0.65rem; }
+.threshold-table td { text-align: center; font-size: 0.75rem; }
+.threshold-table .op-val { color: var(--orange); font-weight: 700; }
 
 /* ═══════════════════════════════════════════
    Utility
@@ -583,6 +640,7 @@ body {
     <header class="site-header">
         <h1>ITS <span>17</span></h1>
         <div class="subtitle">Seekers — Quick Reference</div>
+        <div class="version-info">ITS Rules v1.0.2 — Updated March 2025</div>
     </header>
 
     <!-- Navigation -->
@@ -597,7 +655,7 @@ body {
     <main id="content"></main>
 </div>
 
-<button onclick="scrollTo({top:0,behavior:'smooth'})" id="toTopBtn" title="Top">↑</button>
+<button onclick="window.scrollTo({top:0,behavior:'smooth'})" id="toTopBtn" title="Back to top">↑ Top</button>
 
 <script>
 // ═══════════════════════════════════════════
@@ -771,6 +829,42 @@ const MISSIONS = [
         ],
         mapData: { type: 'standard', objectives: [{ type: 'antenna', x: 0.5, y: 0.5, label: 'Akial Antenna' }] },
         extraNotes: ['Secure HVT / Secure Treasure not used in this scenario.']
+    },
+    {
+        id: 'area_of_interest', name: 'Area of Interest', category: 'its',
+        tacticalSupport: 0, reinforcements: true,
+        hvts: 1, classifiedCount: 1, retreat: true,
+        deployment: DEPLOYMENT_CORNER, deployType: 'corner',
+        objectives: [
+            { text: 'End of game: Dominate an Area of Interest', pts: '1 OP each (max 3)' },
+            { text: 'End of each Game Round: Dominate the Special Area of Interest', pts: '1 OP' },
+            { text: 'End of each Game Round: have an Activated Communication Antenna', pts: '1 OP' },
+        ],
+        classified: 'Each player has 1 Classified Objective (1 OP).',
+        deployNotes: 'Corner deployment. Cannot deploy inside an Area of Interest or in Silhouette contact with the Communication Antenna.',
+        sharedRules: ['specialist_troops', 'dominate_zo', 'shasvastii', 'baggage', 'intelcom_card', 'end_of_mission'],
+        specialRules: `
+            <h4>Communication Antenna</h4>
+            <p>1 Communication Antenna in the center of the table. Represented by Transmission Antenna Token (40mm).</p>
+
+            <h4>Areas of Interest</h4>
+            <p>3 Areas of Interest (Circular Templates), each a ZO. 1 is the Special Area of Interest. Before Deployment, in Initiative order, each player places their Circular Templates: completely outside any DZs, cannot overlap another Area of Interest.</p>
+            <p>Player with first turn places an Area of Interest AND the Special Area of Interest. Player with second turn places one Area of Interest.</p>
+        `,
+        skills: [
+            {
+                name: 'Activate Communication Antenna', type: 'Short Skill — Attack, Scenario',
+                requirements: ['Only Specialist Troops.', 'Must be in Silhouette contact with the Communication Antenna.'],
+                effects: [
+                    'No Roll needed (auto-success).',
+                    'If there are enemy Hackers within any Areas of Interest, one can declare ARO — becomes a Face to Face WIP Roll.',
+                    'Can retry on failure. Can be re-Activated by the other player (flips control).'
+                ]
+            }
+        ],
+        mapData: { type: 'corner', dzCorner: 'tl-br', objectives: [
+            { type: 'antenna', x: 0.5, y: 0.5, label: 'Comm. Antenna' }
+        ] }
     },
     {
         id: 'b_pong', name: 'B-Pong', category: 'its',
@@ -980,11 +1074,11 @@ const MISSIONS = [
                 effects: ['Choose: Unlock Data Console (Attacker only), OR Activate/deactivate Defense System.', 'Normal WIP Roll. Can retry on failure.']
             }
         ],
-        mapData: { type: 'standard', objectives: [
-            { type: 'room', x: 0.5, y: 0.5, label: 'Server Room (8×8")' },
+        mapData: { type: 'standard', dzLabelA: 'DZ A (ATTACKER)', dzLabelB: 'DZ B (DEFENDER)', objectives: [
+            { type: 'room', x: 0.5, y: 0.5, label: 'Server Room (8×8")', labelPos: 'top' },
             { type: 'console', x: 0.5, y: 0.5, label: 'Data Console' },
-            { type: 'antenna', x: 0.585, y: 0.585, label: 'Inhibitor Antenna', labelPos: 'top' }
-        ], exclusionZone: 'attacker' }
+            { type: 'antenna', x: 0.44, y: 0.62, label: 'Antenna' }
+        ], exclusionZone: true }
     },
     {
         id: 'crossing_lines', name: 'Crossing Lines', category: 'its',
@@ -1225,7 +1319,7 @@ const MISSIONS = [
             }
         ],
         extraNotes: ['HVT & Classified Deck not used. Secure Treasure not used.'],
-        mapData: { type: 'corner', objectives: [
+        mapData: { type: 'corner', diag: 'tl-br', objectives: [
             { type: 'civilian', x: 0.5, y: 0.5, label: 'Alpha Infected' }
         ] }
     },
@@ -1279,46 +1373,10 @@ const MISSIONS = [
                 <li>Supply Box Tokens don't block movement or LoF.</li>
             </ul>
         `,
-        mapData: { type: 'corner', objectives: [
+        mapData: { type: 'corner', diag: 'tl-br', objectives: [
             { type: 'techcoffin', x: 0.5, y: 0.5, label: 'Tech-Coffin (×2)', edgeDist: 'Center' },
-            { type: 'techcoffin', x: 0.73, y: 0.27, label: 'Tech-Coffin', edgeDist: '16" from center' },
-            { type: 'techcoffin', x: 0.27, y: 0.73, label: 'Tech-Coffin', edgeDist: '16" from center' }
-        ] }
-    },
-    {
-        id: 'area_of_interest', name: 'Area of Interest', category: 'its',
-        tacticalSupport: 0, reinforcements: true,
-        hvts: 1, classifiedCount: 1, retreat: true,
-        deployment: DEPLOYMENT_CORNER, deployType: 'corner',
-        objectives: [
-            { text: 'End of game: Dominate an Area of Interest', pts: '1 OP each (max 3)' },
-            { text: 'End of each Game Round: Dominate the Special Area of Interest', pts: '1 OP' },
-            { text: 'End of each Game Round: have an Activated Communication Antenna', pts: '1 OP' },
-        ],
-        classified: 'Each player has 1 Classified Objective (1 OP).',
-        deployNotes: 'Corner deployment. Cannot deploy inside an Area of Interest or in Silhouette contact with the Communication Antenna.',
-        sharedRules: ['specialist_troops', 'dominate_zo', 'shasvastii', 'baggage', 'intelcom_card', 'end_of_mission'],
-        specialRules: `
-            <h4>Communication Antenna</h4>
-            <p>1 Communication Antenna in the center of the table. Represented by Transmission Antenna Token (40mm).</p>
-
-            <h4>Areas of Interest</h4>
-            <p>3 Areas of Interest (Circular Templates), each a ZO. 1 is the Special Area of Interest. Before Deployment, in Initiative order, each player places their Circular Templates: completely outside any DZs, cannot overlap another Area of Interest.</p>
-            <p>Player with first turn places an Area of Interest AND the Special Area of Interest. Player with second turn places one Area of Interest.</p>
-        `,
-        skills: [
-            {
-                name: 'Activate Communication Antenna', type: 'Short Skill — Attack, Scenario',
-                requirements: ['Only Specialist Troops.', 'Must be in Silhouette contact with the Communication Antenna.'],
-                effects: [
-                    'No Roll needed (auto-success).',
-                    'If there are enemy Hackers within any Areas of Interest, one can declare ARO — becomes a Face to Face WIP Roll.',
-                    'Can retry on failure. Can be re-Activated by the other player (flips control).'
-                ]
-            }
-        ],
-        mapData: { type: 'corner', objectives: [
-            { type: 'antenna', x: 0.5, y: 0.5, label: 'Comm. Antenna' }
+            { type: 'techcoffin', x: 0.27, y: 0.27, label: 'Tech-Coffin', edgeDist: '16" from center' },
+            { type: 'techcoffin', x: 0.73, y: 0.73, label: 'Tech-Coffin', edgeDist: '16" from center' }
         ] }
     },
 
@@ -1341,8 +1399,19 @@ const MISSIONS = [
         deployNotes: 'Standard deployment.',
         sharedRules: ['killing', 'no_quarter', 'hvt_classified_not_used'],
         specialRules: `
-            <h4>Kill / Survival Thresholds</h4>
-            <p>Thresholds scale with game size. For example at 300pts: Kill 75–150 = 1 OP, Kill 151–250 = 3 OP, Kill 250+ = 4 OP. Surviving 75–150 = 1 OP, 151–250 = 3 OP, 250+ = 4 OP.</p>
+            <h4>Kill Thresholds</h4>
+            <table class="rules-table threshold-table"><thead><tr><th>OP</th><th>150</th><th>200</th><th>250</th><th>300</th><th>350</th><th>400</th></tr></thead><tbody>
+            <tr><td class="op-val">1</td><td>40–75</td><td>50–100</td><td>65–125</td><td>75–150</td><td>85–175</td><td>100–200</td></tr>
+            <tr><td class="op-val">3</td><td>76–125</td><td>101–150</td><td>126–200</td><td>151–250</td><td>176–274</td><td>201–300</td></tr>
+            <tr><td class="op-val">4</td><td>&gt;125</td><td>&gt;150</td><td>&gt;200</td><td>&gt;250</td><td>&gt;275</td><td>&gt;300</td></tr>
+            </tbody></table>
+            <h4>Survival Thresholds (Surviving VP)</h4>
+            <table class="rules-table threshold-table"><thead><tr><th>OP</th><th>150</th><th>200</th><th>250</th><th>300</th><th>350</th><th>400</th></tr></thead><tbody>
+            <tr><td class="op-val">1</td><td>40–75</td><td>50–100</td><td>65–125</td><td>75–150</td><td>85–175</td><td>100–200</td></tr>
+            <tr><td class="op-val">3</td><td>76–125</td><td>101–150</td><td>126–200</td><td>151–250</td><td>176–274</td><td>201–300</td></tr>
+            <tr><td class="op-val">4</td><td>&gt;125</td><td>&gt;150</td><td>&gt;200</td><td>&gt;250</td><td>&gt;275</td><td>&gt;300</td></tr>
+            </tbody></table>
+            <p class="text-note">+ 2 OP for killing the enemy Lieutenant.</p>
         `,
         skills: [],
         mapData: { type: 'standard', objectives: [] },
@@ -1525,11 +1594,13 @@ function generateMap(mission) {
         const dzLabel = md.type === 'wide' ? '16"' : '12"';
 
         // Zone A (top)
+        const dzLabelA = md.dzLabelA || 'DEPLOYMENT ZONE A';
+        const dzLabelB = md.dzLabelB || 'DEPLOYMENT ZONE B';
         svg += `<rect x="${tx}" y="${ty}" width="${S}" height="${dzH}" fill="rgba(34,211,238,0.06)" stroke="rgba(34,211,238,0.3)" stroke-width="1" stroke-dasharray="4 2" rx="2"/>`;
-        svg += `<text x="${tx+8}" y="${ty+16}" fill="rgba(34,211,238,0.5)" font-size="10" font-weight="600">DEPLOYMENT ZONE A</text>`;
+        svg += `<text x="${tx+8}" y="${ty+16}" fill="rgba(34,211,238,0.5)" font-size="10" font-weight="600">${dzLabelA}</text>`;
         // Zone B (bottom)
         svg += `<rect x="${tx}" y="${ty+S-dzH}" width="${S}" height="${dzH}" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.3)" stroke-width="1" stroke-dasharray="4 2" rx="2"/>`;
-        svg += `<text x="${tx+8}" y="${ty+S-dzH+16}" fill="rgba(245,158,11,0.5)" font-size="10" font-weight="600">DEPLOYMENT ZONE B</text>`;
+        svg += `<text x="${tx+8}" y="${ty+S-dzH+16}" fill="rgba(245,158,11,0.5)" font-size="10" font-weight="600">${dzLabelB}</text>`;
 
         // DZ depth dimension (right side)
         svg += dimLabel(tx + S + 4, ty, tx + S + 4, ty + dzH, dzLabel, 'right');
@@ -1537,36 +1608,48 @@ function generateMap(mission) {
 
     } else if (md.type === 'corner') {
         const r = S * 0.5; // radius for 300+ (24")
-        // DZ A = top-right corner
-        svg += `<path d="M ${tx+S} ${ty} L ${tx+S} ${ty+r} A ${r} ${r} 0 0 1 ${tx+S-r} ${ty} Z" fill="rgba(34,211,238,0.06)" stroke="rgba(34,211,238,0.3)" stroke-width="1" stroke-dasharray="4 2"/>`;
-        svg += `<text x="${tx+S-8}" y="${ty+16}" fill="rgba(34,211,238,0.5)" font-size="10" font-weight="600" text-anchor="end">DZ A</text>`;
-        // DZ B = bottom-left corner
-        svg += `<path d="M ${tx} ${ty+S} L ${tx} ${ty+S-r} A ${r} ${r} 0 0 1 ${tx+r} ${ty+S} Z" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.3)" stroke-width="1" stroke-dasharray="4 2"/>`;
-        svg += `<text x="${tx+8}" y="${ty+S-8}" fill="rgba(245,158,11,0.5)" font-size="10" font-weight="600">DZ B</text>`;
-        // Radius label (along top-right arc)
-        svg += `<line x1="${tx+S}" y1="${ty}" x2="${tx+S-r*0.7}" y2="${ty+r*0.7}" stroke="#6b7281" stroke-width="0.7" stroke-dasharray="3 2"/>`;
-        svg += `<text x="${tx+S-r*0.35-4}" y="${ty+r*0.35-4}" fill="#6b7281" font-size="8" font-weight="600">24"</text>`;
+        const dzCorner = md.dzCorner || 'tr-bl'; // 'tr-bl' (default) or 'tl-br'
+        if (dzCorner === 'tl-br') {
+            // DZ A = top-left corner
+            svg += `<path d="M ${tx} ${ty} L ${tx+r} ${ty} A ${r} ${r} 0 0 1 ${tx} ${ty+r} Z" fill="rgba(34,211,238,0.06)" stroke="rgba(34,211,238,0.3)" stroke-width="1" stroke-dasharray="4 2"/>`;
+            svg += `<text x="${tx+8}" y="${ty+16}" fill="rgba(34,211,238,0.5)" font-size="10" font-weight="600">DZ A</text>`;
+            // DZ B = bottom-right corner
+            svg += `<path d="M ${tx+S} ${ty+S} L ${tx+S-r} ${ty+S} A ${r} ${r} 0 0 1 ${tx+S} ${ty+S-r} Z" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.3)" stroke-width="1" stroke-dasharray="4 2"/>`;
+            svg += `<text x="${tx+S-8}" y="${ty+S-8}" fill="rgba(245,158,11,0.5)" font-size="10" font-weight="600" text-anchor="end">DZ B</text>`;
+            // Radius label
+            svg += `<line x1="${tx}" y1="${ty}" x2="${tx+r*0.7}" y2="${ty+r*0.7}" stroke="#6b7281" stroke-width="0.7" stroke-dasharray="3 2"/>`;
+            svg += `<text x="${tx+r*0.35+4}" y="${ty+r*0.35-4}" fill="#6b7281" font-size="8" font-weight="600">24"</text>`;
+        } else {
+            // DZ A = top-right corner
+            svg += `<path d="M ${tx+S} ${ty} L ${tx+S} ${ty+r} A ${r} ${r} 0 0 1 ${tx+S-r} ${ty} Z" fill="rgba(34,211,238,0.06)" stroke="rgba(34,211,238,0.3)" stroke-width="1" stroke-dasharray="4 2"/>`;
+            svg += `<text x="${tx+S-8}" y="${ty+16}" fill="rgba(34,211,238,0.5)" font-size="10" font-weight="600" text-anchor="end">DZ A</text>`;
+            // DZ B = bottom-left corner
+            svg += `<path d="M ${tx} ${ty+S} L ${tx} ${ty+S-r} A ${r} ${r} 0 0 1 ${tx+r} ${ty+S} Z" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.3)" stroke-width="1" stroke-dasharray="4 2"/>`;
+            svg += `<text x="${tx+8}" y="${ty+S-8}" fill="rgba(245,158,11,0.5)" font-size="10" font-weight="600">DZ B</text>`;
+            // Radius label (along top-right arc)
+            svg += `<line x1="${tx+S}" y1="${ty}" x2="${tx+S-r*0.7}" y2="${ty+r*0.7}" stroke="#6b7281" stroke-width="0.7" stroke-dasharray="3 2"/>`;
+            svg += `<text x="${tx+S-r*0.35-4}" y="${ty+r*0.35-4}" fill="#6b7281" font-size="8" font-weight="600">24"</text>`;
+        }
 
     } else if (md.type === 'crossing') {
         const dzH = S * 0.25;
         const stripH = S * 0.083;
-        const gap = S * 0.04;
         // A rear (top)
         svg += `<rect x="${tx}" y="${ty}" width="${S}" height="${dzH}" fill="rgba(34,211,238,0.06)" stroke="rgba(34,211,238,0.3)" stroke-width="1" stroke-dasharray="4 2" rx="2"/>`;
         svg += `<text x="${tx+8}" y="${ty+14}" fill="rgba(34,211,238,0.5)" font-size="9" font-weight="600">DZ A (REAR)</text>`;
-        // A strip (in B's half, just past center)
-        svg += `<rect x="${tx}" y="${ty+S/2+gap}" width="${S}" height="${stripH}" fill="rgba(34,211,238,0.04)" stroke="rgba(34,211,238,0.2)" stroke-width="1" stroke-dasharray="3 2" rx="2"/>`;
-        svg += `<text x="${tx+S-75}" y="${ty+S/2+gap+11}" fill="rgba(34,211,238,0.4)" font-size="7.5" font-weight="600">DZ A (STRIP)</text>`;
+        // A strip (in B's half, touching center line — extends downward from center)
+        svg += `<rect x="${tx}" y="${ty+S/2}" width="${S}" height="${stripH}" fill="rgba(34,211,238,0.04)" stroke="rgba(34,211,238,0.2)" stroke-width="1" stroke-dasharray="3 2" rx="2"/>`;
+        svg += `<text x="${tx+S-75}" y="${ty+S/2+11}" fill="rgba(34,211,238,0.4)" font-size="7.5" font-weight="600">DZ A (STRIP)</text>`;
         // B rear (bottom)
         svg += `<rect x="${tx}" y="${ty+S-dzH}" width="${S}" height="${dzH}" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.3)" stroke-width="1" stroke-dasharray="4 2" rx="2"/>`;
         svg += `<text x="${tx+8}" y="${ty+S-dzH+14}" fill="rgba(245,158,11,0.5)" font-size="9" font-weight="600">DZ B (REAR)</text>`;
-        // B strip (in A's half, just before center)
-        svg += `<rect x="${tx}" y="${ty+S/2-gap-stripH}" width="${S}" height="${stripH}" fill="rgba(245,158,11,0.04)" stroke="rgba(245,158,11,0.2)" stroke-width="1" stroke-dasharray="3 2" rx="2"/>`;
-        svg += `<text x="${tx+8}" y="${ty+S/2-gap-stripH+11}" fill="rgba(245,158,11,0.4)" font-size="7.5" font-weight="600">DZ B (STRIP)</text>`;
+        // B strip (in A's half, touching center line — extends upward from center)
+        svg += `<rect x="${tx}" y="${ty+S/2-stripH}" width="${S}" height="${stripH}" fill="rgba(245,158,11,0.04)" stroke="rgba(245,158,11,0.2)" stroke-width="1" stroke-dasharray="3 2" rx="2"/>`;
+        svg += `<text x="${tx+8}" y="${ty+S/2-stripH+11}" fill="rgba(245,158,11,0.4)" font-size="7.5" font-weight="600">DZ B (STRIP)</text>`;
 
         // Dead zone labels
-        svg += `<text x="${tx+S/2}" y="${ty+dzH+(S/2-gap-stripH-dzH)/2+4}" fill="rgba(239,68,68,0.3)" font-size="9" font-weight="700" text-anchor="middle" letter-spacing="0.1em">DEAD ZONE</text>`;
-        svg += `<text x="${tx+S/2}" y="${ty+S/2+gap+stripH+(S-dzH-(S/2+gap+stripH))/2+4}" fill="rgba(239,68,68,0.3)" font-size="9" font-weight="700" text-anchor="middle" letter-spacing="0.1em">DEAD ZONE</text>`;
+        svg += `<text x="${tx+S/2}" y="${ty+dzH+(S/2-stripH-dzH)/2+4}" fill="rgba(239,68,68,0.3)" font-size="9" font-weight="700" text-anchor="middle" letter-spacing="0.1em">DEAD ZONE</text>`;
+        svg += `<text x="${tx+S/2}" y="${ty+S/2+stripH+(S-dzH-(S/2+stripH))/2+4}" fill="rgba(239,68,68,0.3)" font-size="9" font-weight="700" text-anchor="middle" letter-spacing="0.1em">DEAD ZONE</text>`;
 
         svg += dimLabel(tx + S + 4, ty, tx + S + 4, ty + dzH, '12"', 'right');
         svg += dimLabel(tx + S + 4, ty + S - dzH, tx + S + 4, ty + S, '12"', 'right');
@@ -1576,8 +1659,12 @@ function generateMap(mission) {
     if (md.type !== 'corner') {
         svg += `<line x1="${tx}" y1="${ty+S/2}" x2="${tx+S}" y2="${ty+S/2}" stroke="#374151" stroke-width="1" stroke-dasharray="6 3"/>`;
     } else {
-        // diagonal for corner deployments: top-right to bottom-left
-        svg += `<line x1="${tx+S}" y1="${ty}" x2="${tx}" y2="${ty+S}" stroke="#374151" stroke-width="0.7" stroke-dasharray="6 3"/>`;
+        const diagDir = md.diag || 'tr-bl'; // 'tr-bl' (default) or 'tl-br'
+        if (diagDir === 'tl-br') {
+            svg += `<line x1="${tx}" y1="${ty}" x2="${tx+S}" y2="${ty+S}" stroke="#374151" stroke-width="0.7" stroke-dasharray="6 3"/>`;
+        } else {
+            svg += `<line x1="${tx+S}" y1="${ty}" x2="${tx}" y2="${ty+S}" stroke="#374151" stroke-width="0.7" stroke-dasharray="6 3"/>`;
+        }
     }
 
     // Exclusion zone
@@ -1600,7 +1687,11 @@ function generateMap(mission) {
         svg += `<rect x="${cx-gw/2}" y="${cy+rh/2-2}" width="${gw}" height="4" fill="#22d3ee" rx="1"/>`;
         svg += `<rect x="${cx-rw/2-2}" y="${cy-gw/2}" width="4" height="${gw}" fill="#22d3ee" rx="1"/>`;
         svg += `<rect x="${cx+rw/2-2}" y="${cy-gw/2}" width="4" height="${gw}" fill="#22d3ee" rx="1"/>`;
-        svg += `<text x="${cx}" y="${cy+rh/2+13}" fill="#9ca3af" font-size="8" text-anchor="middle" font-weight="600">${o.label}</text>`;
+        if (o.labelPos === 'top') {
+            svg += `<text x="${cx}" y="${cy-rh/2-6}" fill="#9ca3af" font-size="8" text-anchor="middle" font-weight="600">${o.label}</text>`;
+        } else {
+            svg += `<text x="${cx}" y="${cy+rh/2+13}" fill="#9ca3af" font-size="8" text-anchor="middle" font-weight="600">${o.label}</text>`;
+        }
     });
 
     // Objective markers
@@ -1755,7 +1846,12 @@ function renderMissionDetail(mission) {
 
     // Header
     h += `<div class="mission-header">`;
+    h += `<div class="header-row">`;
     h += `<h2>${m.name}</h2>`;
+    if (m.tacticalSupport > 0) {
+        h += `<button class="roll-ts-btn" onclick="rollTacticalSupport()">Roll TS</button>`;
+    }
+    h += `</div>`;
     h += `<div class="mission-meta">`;
     h += `<span class="tag tag-ts">TS: ${m.tacticalSupport}</span>`;
     h += m.reinforcements ? '<span class="tag tag-reinf-yes">Reinforcements: Yes</span>' : '<span class="tag tag-reinf-no">Reinforcements: No</span>';
@@ -1765,6 +1861,9 @@ function renderMissionDetail(mission) {
     if (m.category === 'da') h += '<span class="tag tag-da">Direct Action</span>';
     h += `</div>`;
     if (m.flavor) h += `<div class="flavor">${m.flavor}</div>`;
+    if (m.tacticalSupport > 0) {
+        h += `<div class="ts-result-bar" id="tsResultBar"><div class="ts-result-label">Tactical Support Option</div><div id="tsResultText"></div></div>`;
+    }
     h += `</div>`;
 
     // Tactical Support (if mission has any)
@@ -1816,8 +1915,8 @@ function renderMissionDetail(mission) {
 function renderMissionGrid() {
     let h = '';
     // ITS Scenarios
-    const its = MISSIONS.filter(m => m.category === 'its');
-    const da = MISSIONS.filter(m => m.category === 'da');
+    const its = MISSIONS.filter(m => m.category === 'its').sort((a,b) => a.name.localeCompare(b.name));
+    const da = MISSIONS.filter(m => m.category === 'da').sort((a,b) => a.name.localeCompare(b.name));
 
     h += `<div class="mission-grid">`;
     h += `<div class="section-divider">ITS Scenarios</div>`;
@@ -1850,7 +1949,35 @@ function renderMissionGrid() {
 function renderSeasonRules() {
     let h = '';
 
-    h += `<div class="rules-section open"><div class="rules-section-head" onclick="toggleSection(this)"><h2>Civilians in Infinity</h2><span class="chevron">▼</span></div><div class="rules-section-body">
+    h += `<div class="rules-section open"><div class="rules-section-head" onclick="toggleSection(this)"><h2>Treasure Hunters</h2><span class="chevron">▼</span></div><div class="rules-section-body">
+        <p>Players can include a <strong>Sāchā</strong> in their Army List.</p>
+        <h3>Treasure Token Placement</h3>
+        <ul>
+            <li>Each player deploys one Treasure Token (25mm) at the beginning of their Deployment Phase.</li>
+            <li>Must be placed at least 4" outside any Deployment Zones, not on/inside scenery, in an accessible location.</li>
+        </ul>
+        <h3>Secure Treasure</h3>
+        <p>At end of game, can replace one Classified Objective with Secure Treasure. Accomplished when a non-Null Trooper is inside the enemy Treasure's ZoC while your own Treasure's ZoC is free of enemy Troopers (not counting Null). Provides the same OP as a normal Classified. A Sāchā can Secure Treasure even if the player's own Treasure is not free of enemies.</p>
+        <h3>Open Treasure (Sāchā Only)</h3>
+        <p><strong>Short Skill — Attack, Scenario.</strong> No Roll needed. Roll on the Treasure Chart for one weapon/equipment. One use per Sāchā per Treasure Token. Re-roll duplicates. Treasure Token stays on the table after opening.</p>
+        <h3>Treasure Chart</h3>
+        <div class="panoply-grid">
+            <span class="pg-num">1-2</span><span>+1 ARM</span><span class="pg-num">13</span><span>Panzerfaust</span>
+            <span class="pg-num">3-4</span><span>Light Flamethrower</span><span class="pg-num">14</span><span>Monofilament CCW</span>
+            <span class="pg-num">5-6</span><span>Grenades</span><span class="pg-num">15</span><span>MOV 8-4</span>
+            <span class="pg-num">7-8</span><span>DA CCW</span><span class="pg-num">16</span><span>MULTI Rifle</span>
+            <span class="pg-num">9</span><span>Multispectral Visor L1</span><span class="pg-num">17</span><span>MULTI Sniper Rifle</span>
+            <span class="pg-num">10</span><span>EXP CCW</span><span class="pg-num">18</span><span>+4 ARM</span>
+            <span class="pg-num">11</span><span>Adhesive Launcher Rifle</span><span class="pg-num">19</span><span>Mimetism (-6)</span>
+            <span class="pg-num">12</span><span>+2 ARM</span><span class="pg-num">20</span><span>HMG</span>
+        </div>
+    </div></div>`;
+
+    h += `<div class="rules-section"><div class="rules-section-head" onclick="toggleSection(this)"><h2>Long Service</h2><span class="chevron">▼</span></div><div class="rules-section-body">
+        <p>During this season, any Trooper whose Trooper Classification is listed as <strong>'Character'</strong> also has the Trooper Classification of <strong>Veteran Troop</strong>.</p>
+    </div></div>`;
+
+    h += `<div class="rules-section"><div class="rules-section-head" onclick="toggleSection(this)"><h2>Civilians in Infinity</h2><span class="chevron">▼</span></div><div class="rules-section-body">
         <p>Sometimes missions include civilians. Troopers interact with non-combatant personnel via CivEvac. Rules of engagement prevent causing harm to civilians.</p>
         <h3>Civilian Effects</h3>
         <ul>
@@ -1907,34 +2034,6 @@ function renderSeasonRules() {
             <li>Cancelled if carrier activated in Impetuous Phase, enters Immobilized/Null State, or enters Marker State.</li>
             <li>Cancelled if carried Trooper recovers from their State. Can be cancelled voluntarily (Short Skill, no Roll).</li>
         </ul>
-    </div></div>`;
-
-    h += `<div class="rules-section"><div class="rules-section-head" onclick="toggleSection(this)"><h2>Long Service</h2><span class="chevron">▼</span></div><div class="rules-section-body">
-        <p>During this season, any Trooper whose Trooper Classification is listed as <strong>'Character'</strong> also has the Trooper Classification of <strong>Veteran Troop</strong>.</p>
-    </div></div>`;
-
-    h += `<div class="rules-section"><div class="rules-section-head" onclick="toggleSection(this)"><h2>Treasure Hunters</h2><span class="chevron">▼</span></div><div class="rules-section-body">
-        <p>Players can include a <strong>Sāchā</strong> in their Army List.</p>
-        <h3>Treasure Token Placement</h3>
-        <ul>
-            <li>Each player deploys one Treasure Token (25mm) at the beginning of their Deployment Phase.</li>
-            <li>Must be placed at least 4" outside any Deployment Zones, not on/inside scenery, in an accessible location.</li>
-        </ul>
-        <h3>Secure Treasure</h3>
-        <p>At end of game, can replace one Classified Objective with Secure Treasure. Accomplished when a non-Null Trooper is inside the enemy Treasure's ZoC while your own Treasure's ZoC is free of enemy Troopers (not counting Null). Provides the same OP as a normal Classified. A Sāchā can Secure Treasure even if the player's own Treasure is not free of enemies.</p>
-        <h3>Open Treasure (Sāchā Only)</h3>
-        <p><strong>Short Skill — Attack, Scenario.</strong> No Roll needed. Roll on the Treasure Chart for one weapon/equipment. One use per Sāchā per Treasure Token. Re-roll duplicates. Treasure Token stays on the table after opening.</p>
-        <h3>Treasure Chart</h3>
-        <div class="panoply-grid">
-            <span class="pg-num">1-2</span><span>+1 ARM</span><span class="pg-num">13</span><span>Panzerfaust</span>
-            <span class="pg-num">3-4</span><span>Light Flamethrower</span><span class="pg-num">14</span><span>Monofilament CCW</span>
-            <span class="pg-num">5-6</span><span>Grenades</span><span class="pg-num">15</span><span>MOV 8-4</span>
-            <span class="pg-num">7-8</span><span>DA CCW</span><span class="pg-num">16</span><span>MULTI Rifle</span>
-            <span class="pg-num">9</span><span>Multispectral Visor L1</span><span class="pg-num">17</span><span>MULTI Sniper Rifle</span>
-            <span class="pg-num">10</span><span>EXP CCW</span><span class="pg-num">18</span><span>+4 ARM</span>
-            <span class="pg-num">11</span><span>Adhesive Launcher Rifle</span><span class="pg-num">19</span><span>Mimetism (-6)</span>
-            <span class="pg-num">12</span><span>+2 ARM</span><span class="pg-num">20</span><span>HMG</span>
-        </div>
     </div></div>`;
 
     h += `<div class="rules-section"><div class="rules-section-head" onclick="toggleSection(this)"><h2>Designated Target</h2><span class="chevron">▼</span></div><div class="rules-section-body">
@@ -2129,6 +2228,19 @@ function toggleSharedRule(el) {
     if (next) next.classList.toggle('open');
 }
 window.toggleSharedRule = toggleSharedRule;
+
+// Tactical Support roller
+function rollTacticalSupport() {
+    const roll = Math.floor(Math.random() * 12);
+    const ts = TACTICAL_SUPPORT_CHART[roll];
+    const bar = document.getElementById('tsResultBar');
+    const text = document.getElementById('tsResultText');
+    if (bar && text) {
+        text.innerHTML = `<span class="ts-result-num">[${ts.num}]</span> ${ts.effect}`;
+        bar.style.display = 'block';
+    }
+}
+window.rollTacticalSupport = rollTacticalSupport;
 
 // Back to top
 window.addEventListener('scroll', () => {
