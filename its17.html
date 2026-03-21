@@ -173,6 +173,10 @@ body {
 .tag-reinf-no { background: var(--red-dim); color: var(--red); }
 .tag-da { background: var(--orange-dim); color: var(--orange); }
 .tag-resops { background: rgba(168,85,247,0.12); color: #c084fc; }
+.tag-hvt { background: rgba(244,114,182,0.12); color: #f472b6; }
+.tag-class { background: rgba(168,162,255,0.12); color: #a5b4fc; }
+.tag-retreat-yes { background: var(--orange-dim); color: var(--orange); }
+.tag-retreat-no { background: var(--green-dim); color: var(--green); }
 
 .section-divider {
     font-size: 0.75rem;
@@ -707,6 +711,7 @@ const MISSIONS = [
     {
         id: 'akial_interference', name: 'Akial Interference', category: 'its',
         tacticalSupport: 0, reinforcements: true,
+        hvts: 4, classifiedCount: 1, retreat: true,
         flavor: 'For you, Laika.',
         deployment: DEPLOYMENT_STANDARD, deployType: 'standard',
         objectives: [
@@ -770,6 +775,7 @@ const MISSIONS = [
     {
         id: 'b_pong', name: 'B-Pong', category: 'its',
         tacticalSupport: 2, reinforcements: true,
+        hvts: 1, classifiedCount: 2, retreat: false,
         deployment: DEPLOYMENT_WIDE, deployType: 'wide',
         objectives: [
             { text: 'End of game: Tracking Beacon totally inside enemy half', pts: '2 OP' },
@@ -837,6 +843,7 @@ const MISSIONS = [
     {
         id: 'corporate_appropriation', name: 'Corporate Appropriation', category: 'its',
         tacticalSupport: 0, reinforcements: true,
+        hvts: 1, classifiedCount: 3, retreat: true,
         deployment: DEPLOYMENT_STANDARD, deployType: 'standard',
         objectives: [
             { text: 'End of game: have the Enemy Prototype Captured', pts: '2 OP' },
@@ -914,15 +921,16 @@ const MISSIONS = [
             </div>
         `,
         mapData: { type: 'standard', objectives: [
-            { type: 'objective', x: 0.25, y: 0.5, label: 'Prototype' },
-            { type: 'objective', x: 0.75, y: 0.5, label: 'Prototype' },
-            { type: 'panoply', x: 0.5, y: 0.17, label: 'Panoply A' },
-            { type: 'panoply', x: 0.5, y: 0.83, label: 'Panoply B' }
+            { type: 'objective', x: 0.25, y: 0.5, label: 'Prototype', edgeDist: '12" from edge' },
+            { type: 'objective', x: 0.75, y: 0.5, label: 'Prototype', edgeDist: '12" from edge' },
+            { type: 'panoply', x: 0.5, y: 0.25, label: 'Panoply A', edgeDist: 'Front of DZ A' },
+            { type: 'panoply', x: 0.5, y: 0.75, label: 'Panoply B', edgeDist: 'Front of DZ B' }
         ], exclusionZone: true }
     },
     {
         id: 'critical_intervention', name: 'Critical Intervention', category: 'its',
         tacticalSupport: 1, reinforcements: false,
+        hvts: 1, classifiedCount: 1, retreat: true,
         deployment: DEPLOYMENT_STANDARD, deployType: 'standard',
         objectives: [
             { text: '[ATTACKER] Unlock the Data Console', pts: '1 OP' },
@@ -975,12 +983,13 @@ const MISSIONS = [
         mapData: { type: 'standard', objectives: [
             { type: 'room', x: 0.5, y: 0.5, label: 'Server Room (8×8")' },
             { type: 'console', x: 0.5, y: 0.5, label: 'Data Console' },
-            { type: 'antenna', x: 0.65, y: 0.35, label: 'Inhibitor Antenna' }
+            { type: 'antenna', x: 0.585, y: 0.585, label: 'Inhibitor Antenna', labelPos: 'top' }
         ], exclusionZone: 'attacker' }
     },
     {
         id: 'crossing_lines', name: 'Crossing Lines', category: 'its',
         tacticalSupport: 0, reinforcements: false,
+        hvts: 1, classifiedCount: 0, retreat: true,
         deployment: DEPLOYMENT_STANDARD, deployType: 'crossing',
         objectives: [
             { text: 'End of each Game Round: Dominate a Dead Zone', pts: '1 OP each' },
@@ -1008,13 +1017,14 @@ const MISSIONS = [
             }
         ],
         mapData: { type: 'crossing', objectives: [
-            { type: 'antenna', x: 0.25, y: 0.5, label: 'Antenna' },
-            { type: 'antenna', x: 0.75, y: 0.5, label: 'Antenna' }
+            { type: 'antenna', x: 0.25, y: 0.5, label: 'Antenna', edgeDist: '12" from edge' },
+            { type: 'antenna', x: 0.75, y: 0.5, label: 'Antenna', edgeDist: '12" from edge' }
         ] }
     },
     {
         id: 'evacuation', name: 'Evacuation', category: 'its',
         tacticalSupport: 2, reinforcements: true,
+        hvts: 2, classifiedCount: 2, retreat: true,
         deployment: DEPLOYMENT_STANDARD, deployType: 'standard',
         objectives: [
             { text: 'End of game: have an Extracted Civilian', pts: '1 OP each' },
@@ -1046,10 +1056,10 @@ const MISSIONS = [
             }
         ],
         mapData: { type: 'standard', objectives: [
-            { type: 'console', x: 0.33, y: 0.5, label: 'Extraction Console' },
-            { type: 'console', x: 0.67, y: 0.5, label: 'Extraction Console' },
-            { type: 'civilian', x: 0.125, y: 0.33, label: 'Civilian' },
-            { type: 'civilian', x: 0.875, y: 0.33, label: 'Civilian' },
+            { type: 'console', x: 0.33, y: 0.5, label: 'Extraction Console', edgeDist: '16" from edge' },
+            { type: 'console', x: 0.67, y: 0.5, label: 'Extraction Console', edgeDist: '16" from edge' },
+            { type: 'civilian', x: 0.125, y: 0.33, label: 'Civilian', edgeDist: '6" from edge' },
+            { type: 'civilian', x: 0.875, y: 0.33, label: 'Civilian', edgeDist: '6" from edge' },
             { type: 'civilian', x: 0.125, y: 0.67, label: 'Civilian' },
             { type: 'civilian', x: 0.875, y: 0.67, label: 'Civilian' }
         ] }
@@ -1057,6 +1067,7 @@ const MISSIONS = [
     {
         id: 'hardlock', name: 'Hardlock', category: 'its',
         tacticalSupport: 1, reinforcements: true,
+        hvts: 1, classifiedCount: 1, retreat: true,
         deployment: DEPLOYMENT_STANDARD, deployType: 'standard',
         objectives: [
             { text: 'End of each Game Round: Control the Enemy Beacon', pts: '1 OP' },
@@ -1098,8 +1109,8 @@ const MISSIONS = [
             </ul>
         `,
         mapData: { type: 'standard', objectives: [
-            { type: 'beacon', x: 0.5, y: 0.17, label: 'Beacon A' },
-            { type: 'beacon', x: 0.5, y: 0.83, label: 'Beacon B' },
+            { type: 'beacon', x: 0.5, y: 0.25, label: 'Beacon A', edgeDist: 'Front of DZ A' },
+            { type: 'beacon', x: 0.5, y: 0.75, label: 'Beacon B', edgeDist: 'Front of DZ B' },
             { type: 'console', x: 0.25, y: 0.5, label: 'Console', edgeDist: '12" from edge' },
             { type: 'console', x: 0.5, y: 0.5, label: 'Console' },
             { type: 'console', x: 0.75, y: 0.5, label: 'Console', edgeDist: '12" from edge' }
@@ -1108,6 +1119,7 @@ const MISSIONS = [
     {
         id: 'last_launch', name: 'Last Launch', category: 'its',
         tacticalSupport: 2, reinforcements: true,
+        hvts: 1, classifiedCount: 3, retreat: false,
         flavor: 'Based on the Dante Harrower\'s Scenario from the Loss of Lieutenant custom mission challenge.',
         deployment: DEPLOYMENT_STANDARD, deployType: 'standard',
         objectives: [
@@ -1173,6 +1185,7 @@ const MISSIONS = [
     {
         id: 'outbreak', name: 'Outbreak', category: 'its',
         tacticalSupport: 0, reinforcements: true,
+        hvts: 0, classifiedCount: 0, retreat: true,
         deployment: DEPLOYMENT_CORNER, deployType: 'corner',
         objectives: [
             { text: 'End of game: have Scanned one Infected', pts: '1 OP each (max 3)' },
@@ -1219,6 +1232,7 @@ const MISSIONS = [
     {
         id: 'provisioning', name: 'Provisioning', category: 'its',
         tacticalSupport: 1, reinforcements: true,
+        hvts: 1, classifiedCount: 1, retreat: true,
         deployment: DEPLOYMENT_CORNER, deployType: 'corner',
         objectives: [
             { text: 'End of game: Control a Supply Box', pts: '1 OP each' },
@@ -1266,14 +1280,15 @@ const MISSIONS = [
             </ul>
         `,
         mapData: { type: 'corner', objectives: [
-            { type: 'techcoffin', x: 0.5, y: 0.5, label: 'Tech-Coffin (×2)' },
-            { type: 'techcoffin', x: 0.27, y: 0.27, label: 'Tech-Coffin' },
-            { type: 'techcoffin', x: 0.73, y: 0.73, label: 'Tech-Coffin' }
+            { type: 'techcoffin', x: 0.5, y: 0.5, label: 'Tech-Coffin (×2)', edgeDist: 'Center' },
+            { type: 'techcoffin', x: 0.73, y: 0.27, label: 'Tech-Coffin', edgeDist: '16" from center' },
+            { type: 'techcoffin', x: 0.27, y: 0.73, label: 'Tech-Coffin', edgeDist: '16" from center' }
         ] }
     },
     {
         id: 'area_of_interest', name: 'Area of Interest', category: 'its',
         tacticalSupport: 0, reinforcements: true,
+        hvts: 1, classifiedCount: 1, retreat: true,
         deployment: DEPLOYMENT_CORNER, deployType: 'corner',
         objectives: [
             { text: 'End of game: Dominate an Area of Interest', pts: '1 OP each (max 3)' },
@@ -1311,6 +1326,7 @@ const MISSIONS = [
     {
         id: 'annihilation', name: 'Annihilation', category: 'da',
         tacticalSupport: 0, reinforcements: true,
+        hvts: 0, classifiedCount: 0, retreat: false,
         deployment: DEPLOYMENT_STANDARD, deployType: 'standard',
         objectives: [
             { text: 'Kill Army Points (tier 1 threshold)', pts: '1 OP' },
@@ -1335,6 +1351,7 @@ const MISSIONS = [
     {
         id: 'battleground', name: 'Battleground', category: 'da',
         tacticalSupport: 0, reinforcements: false,
+        hvts: 0, classifiedCount: 0, retreat: true,
         deployment: DEPLOYMENT_STANDARD, deployType: 'standard',
         objectives: [
             { text: 'End of game: dominate nearest Sector to your DZ', pts: '1 OP' },
@@ -1358,6 +1375,7 @@ const MISSIONS = [
     {
         id: 'cutthroat', name: 'Cutthroat', category: 'da',
         tacticalSupport: 0, reinforcements: true,
+        hvts: 0, classifiedCount: 0, retreat: false,
         deployment: DEPLOYMENT_WIDE, deployType: 'wide',
         objectives: [
             { text: 'Kill more Army Points than adversary', pts: '3 OP' },
@@ -1384,6 +1402,7 @@ const MISSIONS = [
     {
         id: 'superiority', name: 'Superiority', category: 'da',
         tacticalSupport: 0, reinforcements: false,
+        hvts: 0, classifiedCount: 0, retreat: true,
         deployment: DEPLOYMENT_STANDARD, deployType: 'standard',
         objectives: [
             { text: 'End of each Game Round: dominate more Quadrants than adversary', pts: '2 OP' },
@@ -1409,15 +1428,16 @@ const MISSIONS = [
             }
         ],
         mapData: { type: 'standard', objectives: [
-            { type: 'console', x: 0.25, y: 0.25, label: 'Console' },
-            { type: 'console', x: 0.75, y: 0.25, label: 'Console' },
-            { type: 'console', x: 0.25, y: 0.75, label: 'Console' },
-            { type: 'console', x: 0.75, y: 0.75, label: 'Console' }
+            { type: 'console', x: 0.25, y: 0.25, label: 'Console', edgeDist: 'Q1 center' },
+            { type: 'console', x: 0.75, y: 0.25, label: 'Console', edgeDist: 'Q2 center' },
+            { type: 'console', x: 0.25, y: 0.75, label: 'Console', edgeDist: 'Q3 center' },
+            { type: 'console', x: 0.75, y: 0.75, label: 'Console', edgeDist: 'Q4 center' }
         ] }
     },
     {
         id: 'uplink_center', name: 'Uplink Center', category: 'da',
         tacticalSupport: 0, reinforcements: true,
+        hvts: 0, classifiedCount: 0, retreat: true,
         deployment: DEPLOYMENT_WIDE, deployType: 'wide',
         objectives: [
             { text: 'End of game: have an Activated Communication Antenna', pts: '2 OP each' },
@@ -1517,13 +1537,15 @@ function generateMap(mission) {
 
     } else if (md.type === 'corner') {
         const r = S * 0.5; // radius for 300+ (24")
-        svg += `<path d="M ${tx} ${ty} L ${tx+r} ${ty} A ${r} ${r} 0 0 1 ${tx} ${ty+r} Z" fill="rgba(34,211,238,0.06)" stroke="rgba(34,211,238,0.3)" stroke-width="1" stroke-dasharray="4 2"/>`;
-        svg += `<text x="${tx+8}" y="${ty+16}" fill="rgba(34,211,238,0.5)" font-size="10" font-weight="600">DZ A</text>`;
-        svg += `<path d="M ${tx+S} ${ty+S} L ${tx+S-r} ${ty+S} A ${r} ${r} 0 0 1 ${tx+S} ${ty+S-r} Z" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.3)" stroke-width="1" stroke-dasharray="4 2"/>`;
-        svg += `<text x="${tx+S-40}" y="${ty+S-8}" fill="rgba(245,158,11,0.5)" font-size="10" font-weight="600">DZ B</text>`;
-        // Radius label
-        svg += `<line x1="${tx}" y1="${ty}" x2="${tx+r*0.7}" y2="${ty+r*0.7}" stroke="#6b7281" stroke-width="0.7" stroke-dasharray="3 2"/>`;
-        svg += `<text x="${tx+r*0.35+8}" y="${ty+r*0.35-4}" fill="#6b7281" font-size="8" font-weight="600" transform="rotate(45 ${tx+r*0.35+8} ${ty+r*0.35-4})">24"</text>`;
+        // DZ A = top-right corner
+        svg += `<path d="M ${tx+S} ${ty} L ${tx+S} ${ty+r} A ${r} ${r} 0 0 1 ${tx+S-r} ${ty} Z" fill="rgba(34,211,238,0.06)" stroke="rgba(34,211,238,0.3)" stroke-width="1" stroke-dasharray="4 2"/>`;
+        svg += `<text x="${tx+S-8}" y="${ty+16}" fill="rgba(34,211,238,0.5)" font-size="10" font-weight="600" text-anchor="end">DZ A</text>`;
+        // DZ B = bottom-left corner
+        svg += `<path d="M ${tx} ${ty+S} L ${tx} ${ty+S-r} A ${r} ${r} 0 0 1 ${tx+r} ${ty+S} Z" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.3)" stroke-width="1" stroke-dasharray="4 2"/>`;
+        svg += `<text x="${tx+8}" y="${ty+S-8}" fill="rgba(245,158,11,0.5)" font-size="10" font-weight="600">DZ B</text>`;
+        // Radius label (along top-right arc)
+        svg += `<line x1="${tx+S}" y1="${ty}" x2="${tx+S-r*0.7}" y2="${ty+r*0.7}" stroke="#6b7281" stroke-width="0.7" stroke-dasharray="3 2"/>`;
+        svg += `<text x="${tx+S-r*0.35-4}" y="${ty+r*0.35-4}" fill="#6b7281" font-size="8" font-weight="600">24"</text>`;
 
     } else if (md.type === 'crossing') {
         const dzH = S * 0.25;
@@ -1554,8 +1576,8 @@ function generateMap(mission) {
     if (md.type !== 'corner') {
         svg += `<line x1="${tx}" y1="${ty+S/2}" x2="${tx+S}" y2="${ty+S/2}" stroke="#374151" stroke-width="1" stroke-dasharray="6 3"/>`;
     } else {
-        // diagonal for corner deployments
-        svg += `<line x1="${tx}" y1="${ty+S}" x2="${tx+S}" y2="${ty}" stroke="#374151" stroke-width="0.7" stroke-dasharray="6 3"/>`;
+        // diagonal for corner deployments: top-right to bottom-left
+        svg += `<line x1="${tx+S}" y1="${ty}" x2="${tx}" y2="${ty+S}" stroke="#374151" stroke-width="0.7" stroke-dasharray="6 3"/>`;
     }
 
     // Exclusion zone
@@ -1602,10 +1624,17 @@ function generateMap(mission) {
         const cx = tx + S * o.x, cy = ty + S * o.y;
         if (shapes[o.type]) {
             svg += shapes[o.type](cx, cy);
-            svg += `<text x="${cx}" y="${cy+18}" fill="#9ca3af" font-size="8" text-anchor="middle" font-weight="500">${o.label}</text>`;
-            // Distance from edge annotation if provided
-            if (o.edgeDist) {
-                svg += `<text x="${cx}" y="${cy+27}" fill="#6b7281" font-size="7" text-anchor="middle">${o.edgeDist}</text>`;
+            // Label positioning: default below, 'top' above
+            if (o.labelPos === 'top') {
+                svg += `<text x="${cx}" y="${cy-14}" fill="#9ca3af" font-size="8" text-anchor="middle" font-weight="500">${o.label}</text>`;
+                if (o.edgeDist) {
+                    svg += `<text x="${cx}" y="${cy-24}" fill="#6b7281" font-size="7" text-anchor="middle">${o.edgeDist}</text>`;
+                }
+            } else {
+                svg += `<text x="${cx}" y="${cy+18}" fill="#9ca3af" font-size="8" text-anchor="middle" font-weight="500">${o.label}</text>`;
+                if (o.edgeDist) {
+                    svg += `<text x="${cx}" y="${cy+27}" fill="#6b7281" font-size="7" text-anchor="middle">${o.edgeDist}</text>`;
+                }
             }
         }
     });
@@ -1730,6 +1759,9 @@ function renderMissionDetail(mission) {
     h += `<div class="mission-meta">`;
     h += `<span class="tag tag-ts">TS: ${m.tacticalSupport}</span>`;
     h += m.reinforcements ? '<span class="tag tag-reinf-yes">Reinforcements: Yes</span>' : '<span class="tag tag-reinf-no">Reinforcements: No</span>';
+    h += m.retreat ? '<span class="tag tag-retreat-yes">Retreat: Yes</span>' : '<span class="tag tag-retreat-no">Retreat: No</span>';
+    h += `<span class="tag tag-hvt">HVT: ${m.hvts}</span>`;
+    h += `<span class="tag tag-class">Classified: ${m.classifiedCount}</span>`;
     if (m.category === 'da') h += '<span class="tag tag-da">Direct Action</span>';
     h += `</div>`;
     if (m.flavor) h += `<div class="flavor">${m.flavor}</div>`;
@@ -1795,6 +1827,8 @@ function renderMissionGrid() {
         h += `<div class="tile-tags">`;
         h += `<span class="tag tag-ts">TS ${m.tacticalSupport}</span>`;
         h += m.reinforcements ? '<span class="tag tag-reinf-yes">Reinf ✓</span>' : '<span class="tag tag-reinf-no">Reinf ✗</span>';
+        h += `<span class="tag tag-hvt">HVT ${m.hvts}</span>`;
+        h += `<span class="tag tag-class">Class ${m.classifiedCount}</span>`;
         h += `</div></div>`;
     });
 
@@ -1805,6 +1839,8 @@ function renderMissionGrid() {
         h += `<div class="tile-tags">`;
         h += '<span class="tag tag-da">Direct Action</span>';
         h += m.reinforcements ? '<span class="tag tag-reinf-yes">Reinf ✓</span>' : '<span class="tag tag-reinf-no">Reinf ✗</span>';
+        h += `<span class="tag tag-hvt">HVT ${m.hvts}</span>`;
+        h += `<span class="tag tag-class">Class ${m.classifiedCount}</span>`;
         h += `</div></div>`;
     });
     h += `</div>`;
