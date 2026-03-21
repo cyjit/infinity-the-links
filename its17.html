@@ -209,6 +209,14 @@ body {
     grid-column: 1 / -1;
     border-bottom: 1px solid var(--border);
 }
+.section-divider .divider-note {
+    font-weight: 500;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+    letter-spacing: 0.08em;
+    margin-left: 6px;
+}
 
 /* ═══════════════════════════════════════════
    Mission Detail View
@@ -1872,9 +1880,12 @@ function renderMissionDetail(mission) {
     h += `<span class="tag tag-ts">TS: ${m.tacticalSupport}</span>`;
     h += m.reinforcements ? '<span class="tag tag-reinf-yes">Reinforcements: Yes</span>' : '<span class="tag tag-reinf-no">Reinforcements: No</span>';
     h += m.retreat ? '<span class="tag tag-retreat-yes">Retreat: Yes</span>' : '<span class="tag tag-retreat-no">Retreat: No</span>';
-    h += `<span class="tag tag-hvt">HVT: ${m.hvts}</span>`;
-    h += `<span class="tag tag-class">Classified: ${m.classifiedCount}</span>`;
-    if (m.category === 'da') h += '<span class="tag tag-da">Direct Action</span>';
+    if (m.category === 'da') {
+        h += '<span class="tag tag-da">Direct Action</span>';
+    } else {
+        h += `<span class="tag tag-hvt">HVT: ${m.hvts}</span>`;
+        h += `<span class="tag tag-class">Classified: ${m.classifiedCount}</span>`;
+    }
     h += `</div>`;
     if (m.flavor) h += `<div class="flavor">${m.flavor}</div>`;
     if (m.tacticalSupport > 0) {
@@ -1947,15 +1958,12 @@ function renderMissionGrid() {
         h += `</div></div>`;
     });
 
-    h += `<div class="section-divider">Direct Action</div>`;
+    h += `<div class="section-divider">Direct Action <span class="divider-note">No HVT — No Classified</span></div>`;
     da.forEach(m => {
         h += `<div class="mission-tile" onclick="navigate('mission/${m.id}')">`;
         h += `<div class="tile-name">${m.name}</div>`;
         h += `<div class="tile-tags">`;
-        h += '<span class="tag tag-da">Direct Action</span>';
         h += m.reinforcements ? '<span class="tag tag-reinf-yes">Reinf ✓</span>' : '<span class="tag tag-reinf-no">Reinf ✗</span>';
-        h += `<span class="tag tag-hvt">HVT ${m.hvts}</span>`;
-        h += `<span class="tag tag-class">Class ${m.classifiedCount}</span>`;
         h += `</div></div>`;
     });
     h += `</div>`;
