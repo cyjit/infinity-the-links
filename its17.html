@@ -5,11 +5,12 @@
     DESCRIPTION: A lightweight, single-file webapp for the Infinity Tournament System Season 17 rules.
     Optimized for at-the-table quick reference on mobile, with full rules browsing on desktop.
     Design language matches infinitythelinks.com.
+    Corvus Sphere is ass.
 -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITS 17 — Seekers</title>
+    <title>Mission Geist — ITS 17</title>
     <meta name="description" content="Quick reference for Infinity the Game ITS Season 17: Seekers. Missions, rules, and deployment maps.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,10 +70,22 @@ body {
    Header / Nav
    ═══════════════════════════════════════════ */
 .site-header {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
     padding: 20px 0 12px;
     border-bottom: 1px solid var(--border);
     margin-bottom: 16px;
+}
+.site-header .header-logo {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+.site-header .header-text {
+    text-align: left;
 }
 .site-header h1 {
     font-size: 1.8rem;
@@ -638,9 +651,12 @@ body {
 <div class="app" id="app">
     <!-- Header -->
     <header class="site-header">
-        <h1>ITS <span>17</span></h1>
-        <div class="subtitle">Seekers — Quick Reference</div>
-        <div class="version-info">ITS Rules v1.0.2 — Updated March 2025</div>
+        <img src="geist.png" alt="Mission Geist" class="header-logo">
+        <div class="header-text">
+            <h1>Mission <span>Geist</span></h1>
+            <div class="subtitle">ITS 17 — Seekers</div>
+            <div class="version-info">ITS Rules v1.0.2 — Updated March 2025</div>
+        </div>
     </header>
 
     <!-- Navigation -->
